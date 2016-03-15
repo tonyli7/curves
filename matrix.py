@@ -1,58 +1,58 @@
 import math
 
-def make_bezier():
-    pass
-
-def make_hermite(p0,p1,r0,r1):
-    h_curve = new_matrix()
-    
-    pass
-
-def generate_curve_coefs( p1, p2, p3, p4, t ):
-    pass
 
 def make_translate( x, y, z ):
-    t = new_matrix()
-    ident(t)
-    t[3][0] = x
-    t[3][1] = y
-    t[3][2] = z
-    return t
+    trans_mat=[
+        [1,0,0,x],
+        [0,1,0,y],
+        [0,0,1,z],
+        [0,0,0,1]
+    ]
+    return trans_mat
+    pass
 
 def make_scale( x, y, z ):
-    s = new_matrix()
-    ident(s)
-    s[0][0] = x
-    s[1][1] = y
-    s[2][2] = z
-    return s
+    scale_mat=[
+        [x,0,0,0],
+        [0,y,0,0],
+        [0,0,z,0],
+        [0,0,0,1]
+    ]
+    return scale_mat
+    pass
     
-def make_rotX( theta ):    
-    rx = new_matrix()
-    ident( rx )
-    rx[1][1] = math.cos( theta )
-    rx[2][1] = -1 * math.sin( theta )
-    rx[1][2] = math.sin( theta )
-    rx[2][2] = math.cos( theta )
-    return rx
+def make_rotX( theta ):
+    phi=theta*math.pi/180
+    rotX_mat=[
+        [1,0,0,0],
+        [0,math.cos(phi),-math.sin(phi),0],
+        [0,math.sin(phi),math.cos(phi),0],
+        [0,0,0,1]
+    ]
+    return rotX_mat
+    pass
 
 def make_rotY( theta ):
-    ry = new_matrix()
-    ident( ry )
-    ry[0][0] = math.cos( theta )
-    ry[2][0] = -1 * math.sin( theta )
-    ry[0][2] = math.sin( theta )
-    ry[2][2] = math.cos( theta )
-    return ry
+    phi=theta*math.pi/180
+    rotY_mat=[
+        [math.cos(phi),0,-math.sin(phi),0],
+        [0,1,0,0],
+        [math.sin(phi),math.cos(phi),1,0],
+        [0,0,0,1]
+    ]
+    return rotY_mat
+    pass
 
 def make_rotZ( theta ):
-    rz = new_matrix()
-    ident( rz )
-    rz[0][0] = math.cos( theta )
-    rz[1][0] = -1 * math.sin( theta )
-    rz[0][1] = math.sin( theta )
-    rz[1][1] = math.cos( theta )
-    return rz
+    phi=theta*math.pi/180
+    rotZ_mat=[
+        [math.cos(phi),-math.sin(phi),0,0],
+        [math.sin(phi),math.cos(phi),0,0],
+        [0,0,1,0],
+        [0,0,0,1]
+    ]
+    return rotZ_mat
+    pass
 
 def new_matrix(rows = 4, cols = 4):
     m = []
@@ -63,37 +63,48 @@ def new_matrix(rows = 4, cols = 4):
     return m
 
 def print_matrix( matrix ):
-    s = ''
-    for r in range( len( matrix[0] ) ):
-        for c in range( len(matrix) ):
-            s+= str(matrix[c][r]) + ' '
-        s+= '\n'
-    print s
+    for i in matrix:
+        print i
+    pass
 
 def ident( matrix ):
-    for r in range( len( matrix[0] ) ):
-        for c in range( len( matrix ) ):
-            if r == c:
-                matrix[c][r] = 1
-            else:
-                matrix[c][r] = 0
+    if not len(matrix)==len(matrix[0]):
+        print "Not a square"
+        return -1
+    ctr=0
+    for i in matrix:
+        j=0
+        while j<len(matrix):
+            i[j]=0
+            i[ctr]=1
+            j+=1
+        ctr+=1
+            
+    pass
 
 def scalar_mult( matrix, x ):
-    for r in range( len( matrix[0] ) ):
-        for c in range( len( matrix ) ):
-            matrix[c][r] *= x
+    for i in range(len(matrix)):
+        for j in range (len(matrix[0])):
+            matrix[i][j]*=x
+    return matrix
+    pass
 
 #m1 * m2 -> m2
 def matrix_mult( m1, m2 ):
-    
-    t = new_matrix( 4, 1 )
-
-    for c in range( len( m2 ) ):        
-        
-        for r in range(4):
-            t[0][r] = m2[c][r]
-            
-        for r in range(4):
-            m2[c][r] = m1[0][r] * t[0][0] + m1[1][r] * t[0][1] + m1[2][r] * t[0][2] + m1[3][r] * t[0][3]
-
+    if not len(m1[0]) == len(m2):
+        print "Error: length of matrix-1: %d does not match height of matrix-2:%d\n"%(len(m1[0]),len(m2))
+        return -1
+    new=new_matrix(len(m2[0]),len(m1))
+    ctr=0
+   
+    for i in range(len(m1)):#loops rows
+        t=0
+        while t < len(m2[0]):#number of times it loops
+            for j in range(len(m2)):#loops row elements in m1 and col in m2
+                new[ctr][t]+=m1[i][j]*m2[j][t]
+                #print str(m1[i][j])+" * "+str(m2[j][t]) , ctr, t
+            t+=1
+        ctr+=1
+    return new
+    pass
 
