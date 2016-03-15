@@ -1,6 +1,30 @@
 import math
 
+def make_bezier():
+    b_mat = [
+        [-1,3,-3,1],
+        [3,-6,3,0],
+        [-3,3,0,0],
+        [1,0,0,0]
+    ]
+    return b_mat
 
+
+def make_hermite():
+    h_mat = [
+        [-1,3,-3,1],
+        [3,-6,3,0],
+        [-3,3,0,0],
+        [1,0,0,0]
+    ]
+    return h_mat
+
+def generate_curve_coefs( p1, p2, p3, p4, t ):
+    temp_mat=new_matrix()
+    if t == "h":
+        return matrix_mult(make_hermite(),)
+    pass
+    
 def make_translate( x, y, z ):
     trans_mat=[
         [1,0,0,x],
