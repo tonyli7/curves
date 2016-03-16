@@ -1,5 +1,23 @@
 import math
 
+def param_cx(r, deg,step):
+    return r*cos(step*2*deg*pi/180)
+
+def param_cy(r, deg,step):
+    return r*sin(step*2*deg*pi/180)
+
+def add_circle( points, cx, cy, cz, r, step ):
+    
+    for i in range(0,1,step):
+        x=param_cx(r,deg,i)
+        y=param_cy(r,deg,i)
+        
+        add_point(points,x,y,0)
+    pass
+
+def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
+    pass
+
 def make_bezier():
     b_mat = [
         [-1,3,-3,1],
@@ -21,8 +39,15 @@ def make_hermite():
 
 def generate_curve_coefs( p1, p2, p3, p4, t ):
     temp_mat=new_matrix()
+    for i in range(4):
+        temp_mat[i][0]=p1[i]
+        temp_mat[i][1]=p2[i]
+        temp_mat[i][2]=p3[i]
+        temp_mat[i][3]=p4[i]
+        
+    print_matrix(temp_mat)
     if t == "h":
-        return matrix_mult(make_hermite(),)
+        return matrix_mult(make_hermite(),temp_mat)
     pass
     
 def make_translate( x, y, z ):
