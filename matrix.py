@@ -1,22 +1,5 @@
 import math
 
-def param_cx(r, deg,step):
-    return r*cos(step*2*deg*pi/180)
-
-def param_cy(r, deg,step):
-    return r*sin(step*2*deg*pi/180)
-
-def add_circle( points, cx, cy, cz, r, step ):
-    
-    for i in range(0,1,step):
-        x=param_cx(r,deg,i)
-        y=param_cy(r,deg,i)
-        
-        add_point(points,x,y,0)
-    pass
-
-def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    pass
 
 def make_bezier():
     b_mat = [

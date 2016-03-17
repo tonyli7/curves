@@ -5,7 +5,7 @@ from matrix import *
 
 screen = new_screen()
 color = [ 0, 255, 0 ]
-edges = []
+edges = new_matrix()
 transform = new_matrix()
 
 print_matrix(make_hermite())
