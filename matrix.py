@@ -13,9 +13,9 @@ def make_bezier():
 
 def make_hermite():
     h_mat = [
-        [-1,3,-3,1],
-        [3,-6,3,0],
-        [-3,3,0,0],
+        [2,-2,1,1],
+        [-3,3,-2,-1],
+        [0,0,1,0],
         [1,0,0,0]
     ]
     return h_mat
@@ -29,8 +29,12 @@ def generate_curve_coefs( p1, p2, p3, p4, t ):
         temp_mat[i][3]=p4[i]
         
     print_matrix(temp_mat)
-    if t == "h":
+    if t == "hermite":
         return matrix_mult(make_hermite(),temp_mat)
+    if t == "bezier":
+        return matrix_mult(make_bezier(),temp_mat)
+    else:
+        print "Please input a type"
     pass
     
 def make_translate( x, y, z ):

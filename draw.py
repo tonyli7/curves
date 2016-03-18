@@ -18,7 +18,15 @@ def add_circle( points, cx, cy, cz, r, step ):
     pass
 
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    
+    pmat=[
+        [x0,x1,x2,x3],
+        [y0,y1,y2,y3],
+        [z0,z1,z2,z3],
+        [1,1,1,1]
+
+    ]
+    if curve_type == "hermite":
+        
     pass
 
 def draw_lines( matrix, screen, color ):
