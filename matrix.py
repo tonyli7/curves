@@ -21,16 +21,17 @@ def make_hermite():
     return h_mat
 
 def generate_curve_coefs( p1, p2, p3, p4, t ):
-    temp_mat=new_matrix()
-    for i in range(4):
-        temp_mat[i][0]=p1[i]
-        temp_mat[i][1]=p2[i]
-        temp_mat[i][2]=p3[i]
-        temp_mat[i][3]=p4[i]
+    temp_mat=[[p1],
+              [p2],
+              [p3],
+              [p4]
+          ]
+              
         
-    print_matrix(temp_mat)
+    #print_matrix(temp_mat)
     if t == "hermite":
         return matrix_mult(make_hermite(),temp_mat)
+        
     if t == "bezier":
         return matrix_mult(make_bezier(),temp_mat)
     else:

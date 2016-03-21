@@ -1,32 +1,50 @@
 from display import *
 from matrix import *
 import math
+import numpy as np
 
-def param_cx(r, deg,step):
-    return r*cos(step*2*deg*pi/180)
-
-def param_cy(r, deg,step):
-    return r*sin(step*2*deg*pi/180)
 
 def add_circle( points, cx, cy, cz, r, step ):
     
-    for i in range(0,1,step):
-        x=param_cx(r,deg,i)
-        y=param_cy(r,deg,i)
+    x0=r+cx
+    y0=cy
+    x1=0
+    y1=0
+    for t in np.arange(0,1.001,step):
+        x1=r*math.cos(2*math.pi*t)+cx
+        y1=r*math.sin(2*math.pi*t)+cy
         
-        add_point(points,x,y,0)
+        add_edge(points,x0,y0,0,x1,y1,0)
+        x0=x1
+        y0=y1
     pass
 
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    pmat=[
-        [x0,x1,x2,x3],
-        [y0,y1,y2,y3],
-        [z0,z1,z2,z3],
-        [1,1,1,1]
-
-    ]
+    xi=x0
+    yi=y0
+    xf=0
+    yf=0
     if curve_type == "hermite":
-        
+        x_coef=generate_curve_coefs(x0,x1,x2,x3,"hermite")
+        y_coef=generate_curve_coefs(y0,y1,y2,y3,"hermite")
+        for t in np.arange(0,1.001,step):
+            xf = x_coef[0][0]*t**3 + x_coef[1][0]*t**2 + x_coef[2][0]*t + x_coef[3][0]
+            yf = y_coef[0][0]*t**3 + y_coef[1][0]*t**2 + y_coef[2][0]*t + y_coef[3][0]
+            add_edge(points, xi, yi, 0, xf, yf, 0);
+            xi=xf
+            yi=yf
+
+    elif curve_type == "bezier":
+        x_coef=generate_curve_coefs(x0,x1,x2,x3,"bezier")
+        y_coef=generate_curve_coefs(y0,y1,y2,y3,"bezier")
+        for t in np.arange(0,1.001,step):
+            xf = x_coef[0][0]*t**3 + x_coef[1][0]*t**2 + x_coef[2][0]*t + x_coef[3][0]
+            yf = y_coef[0][0]*t**3 + y_coef[1][0]*t**2 + y_coef[2][0]*t + y_coef[3][0]
+            add_edge(points, xi, yi, 0, xf, yf, 0);
+            xi=xf
+            yi=yf
+    
+    return "Please input a type"
     pass
 
 def draw_lines( matrix, screen, color ):

@@ -34,7 +34,41 @@ def parse_file( fname, points, transform, screen, color ):
             transform=matrix_mult(translate,transform)
             i+=1
             print_matrix(transform)
-        
+        elif f[i] == "xrotate":
+            transform=matrix_mult(make_rotX(float(f[i+1])), transform)
+            i+=1
+        elif f[i] == "yrotate":
+            transform=matrix_mult(make_rotY(float(f[i+1])), transform)
+            i+=1
+        elif f[i] == "zrotate":
+            transform=matrix_mult(make_rotZ(float(f[i+1])), transform)
+           
+            i+=1
+        elif f[i] == "circle":
+            pts=f[i+1].split(" ")
+            add_circle(points,float(pts[0]),float(pts[1]),0,float(pts[2]),.001)
+        elif f[i] == "hermite":
+            coefs=f[i+1].split(" ")
+            add_curve(points,
+                      float(coefs[0]),float(coefs[1]),float(coefs[4]),float(coefs[5]),
+                      float(coefs[2]),float(coefs[3]),float(coefs[6]),float(coefs[7]),
+                      .001,"hermite")
+        elif f[i] == "bezier":
+            coefs=f[i+1].split(" ")
+            add_curve(points,
+                      float(coefs[0]),float(coefs[1]),float(coefs[2]),float(coefs[3]),
+                      float(coefs[4]),float(coefs[5]),float(coefs[6]),float(coefs[7]),
+                      .001,"bezier")
+        elif f[i] == "apply":
+            points=matrix_mult(transform,points)
+          
+        elif f[i] == "display":
+            clear_screen(screen)
+            draw_lines(points, screen, color)
+            display(screen)
+        elif f[i] == "save":
+            save_extension(screen,f[i+1])
+       
         i+=1
     pass
 
