@@ -25,8 +25,8 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
     xf=0
     yf=0
     if curve_type == "hermite":
-        x_coef=generate_curve_coefs(x0,x1,x2,x3,"hermite")
-        y_coef=generate_curve_coefs(y0,y1,y2,y3,"hermite")
+        x_coef=generate_curve_coefs(x0,x2,x1,x3,"hermite")
+        y_coef=generate_curve_coefs(y0,y2,y1,y3,"hermite")
         for t in np.arange(0,1.001,step):
             xf = x_coef[0][0]*t**3 + x_coef[1][0]*t**2 + x_coef[2][0]*t + x_coef[3][0]
             yf = y_coef[0][0]*t**3 + y_coef[1][0]*t**2 + y_coef[2][0]*t + y_coef[3][0]

@@ -50,8 +50,8 @@ def parse_file( fname, points, transform, screen, color ):
         elif f[i] == "hermite":
             coefs=f[i+1].split(" ")
             add_curve(points,
-                      float(coefs[0]),float(coefs[1]),float(coefs[4]),float(coefs[5]),
-                      float(coefs[2]),float(coefs[3]),float(coefs[6]),float(coefs[7]),
+                      float(coefs[0]),float(coefs[1]),float(coefs[2])-float(coefs[0]),float(coefs[3])-float(coefs[1]),
+                      float(coefs[4]),float(coefs[5]),float(coefs[6])-float(coefs[4]),float(coefs[7])-float(coefs[5]),
                       .001,"hermite")
         elif f[i] == "bezier":
             coefs=f[i+1].split(" ")
